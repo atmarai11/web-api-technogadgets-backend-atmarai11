@@ -1,0 +1,17 @@
+{
+  "name": "bookverse_backend_api",
+  "version": "1.0.0",
+  "description": "This is the api for BookVerse Web and Mobile Application created using Express and MongoDB.",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon ./app.js"
+  },
+  "author": "Shiva Adhikari",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
