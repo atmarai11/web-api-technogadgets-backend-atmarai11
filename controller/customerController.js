@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
     if (customer && (await bcrypt.compare(password, customer.password))) {
       res.status(200);
       res.json({
-        success: "true",
+        success: true,
         token: generateToken(customer._id),
       });
     } else {
@@ -66,6 +66,7 @@ const generateToken = (id) => {
     expiresIn: "15d",
   });
 };
+
 module.exports = {
   registerUser,
   loginUser,
