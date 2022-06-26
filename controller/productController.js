@@ -1,5 +1,22 @@
 const Product = require("../model/productModel");
 const Customer = require("../model/customerModel");
+
+const getProduct = async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    const categoryWiseData = await Product.find({ category });
+
+    if (categoryWiseData) {
+      res.json({ data: categoryWiseData });
+    } else {
+      res.json({ message: `No any product found for category ${category}` });
+    }
+  } catch (err) {
+    res.json({ errorMessage: err.message, stack: err.stack });
+  }
+};
+
 const addProduct = async (req, res) => {
   const customerData = req.customer;
   console.log(customerData);
@@ -72,20 +89,58 @@ const addProduct = async (req, res) => {
   }
 };
 
-const getProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
+  const customerId = req.customer._id;
+  const { productId } = req.params;
+
   try {
-    const { category } = req.params;
-
-    const categoryWiseData = await Product.find({ category });
-
-    if (categoryWiseData) {
-      res.json({ data: categoryWiseData });
-    } else {
-      res.json({ message: `No any product found for category ${category}` });
+    if (!customerId) {
+      throw new Error("No user found.");
     }
+
+    if (!productId) {
+      throw new Error("No product id.");
+    }
+
+    const productData = await Product.findById(productId);
+
+    if (productData.customerId.toString() !== customerId.toString()) {
+      throw new Error("User not authorized.");
+    }
+
+    const updatedData = await Product.findByIdAndUpdate(productId, req.body, {
+      new: true,
+    });
+
+    res.json({ updatedData });
   } catch (err) {
-    res.json({ errorMessage: err.message, stack: err.stack });
+    res.json({ errorMessage: err.message });
   }
 };
 
-module.exports = { addProduct, getProduct };
+const deleteProduct = async (req, res) => {
+  const customerId = req.customer._id;
+  const { productId } = req.params;
+
+  try {
+    if (!customerId) {
+      throw new Error("No user found.");
+    }
+
+    if (!productId) {
+      throw new Error("No product id.");
+    }
+
+    const productData = await Product.findById(productId);
+
+    if (productData.customerId.toString() !== customerId.toString()) {
+      throw new Error("User not authorized.");
+    }
+
+    await Product.findByIdAndDelete(productId);
+
+    res.json({ productId });
+  } catch (err) {}
+};
+
+module.exports = { addProduct, getProduct, updateProduct, deleteProduct };
