@@ -15,6 +15,7 @@ app.use(
 
 app.use(require("./routes/customerRoute"));
 app.use(require("./routes/productRoute"));
+app.use(require("./routes/reviewRoute"));
 
 app.listen(90, () => {
   console.log("Listening at port 90.");
