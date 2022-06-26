@@ -55,4 +55,17 @@ const getBookReviews = async (req, res) => {
   }
 };
 
-module.exports = { addReview, getBookReviews };
+const getUserReviews = async (req, res) => {
+  const customerId = req.customer._id;
+  try {
+    if (!customerId) throw new Error("User not authorized.");
+
+    const data = await Review.find({ customerId });
+
+    res.json({ data });
+  } catch (err) {
+    res.json({ errorMessage: err.message });
+  }
+};
+
+module.exports = { addReview, getBookReviews, getUserReviews };
