@@ -9,6 +9,10 @@ const Cart = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true,
   },
+  productName: {
+    type: String,
+    required: true,
+  },
   quantity: {
     type: Number,
     required: true,
