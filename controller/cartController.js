@@ -85,4 +85,25 @@ const updateCart = async (req, res) => {
   }
 };
 
+const deleteCart = async (req, res) => {
+  try {
+    const userId = req.customer._id;
+    const { cartId } = req.params;
+
+    if (!userId) throw new Error("No user found!");
+    if (!cartId) throw new Error("No any cart found!");
+
+    const authorizedUser = await Cart.find({ userId });
+
+    if (!authorizedUser) throw new Error("User not authorized!");
+
+    const data = await Cart.findByIdAndDelete(cartId);
+
+    if (data) res.json({ message: "Cart deleted successfuly!", id: cartId });
+    else throw new Error("Error while deleting!");
+  } catch (err) {
+    res.json({ errorMessage: err.message });
+  }
+};
+
 module.exports = { getCart, addCart };
