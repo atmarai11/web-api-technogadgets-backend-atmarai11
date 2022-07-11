@@ -106,4 +106,4 @@ const deleteCart = async (req, res) => {
   }
 };
 
-module.exports = { getCart, addCart };
+module.exports = { getCart, addCart, updateCart };
