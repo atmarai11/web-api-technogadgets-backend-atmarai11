@@ -1,6 +1,18 @@
 const Product = require("../model/productModel");
 const Customer = require("../model/customerModel");
 
+// Getting all products from the database.
+const getAllProudcts = async (req, res) => {
+  try {
+    const allProductData = await Product.find({});
+    if (allProductData) res.json({ data: allProductData });
+    else throw new Error("Error while fetching product data!");
+  } catch (err) {
+    res.json({ errorMessage: err.message });
+  }
+};
+
+// Getting the product category-wise.
 const getProduct = async (req, res) => {
   try {
     const { category } = req.params;
@@ -14,6 +26,21 @@ const getProduct = async (req, res) => {
     }
   } catch (err) {
     res.json({ errorMessage: err.message, stack: err.stack });
+  }
+};
+
+// Getting the value of single product by id.
+const getProductById = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const productData = await Product.findById(productId);
+
+    if (productData) res.json({ data: productData });
+    else
+      throw new Error(`Error while fetching product data for id ${productId}.`);
+  } catch (err) {
+    res.json({ errorMessage: err.message });
   }
 };
 
@@ -143,4 +170,11 @@ const deleteProduct = async (req, res) => {
   } catch (err) {}
 };
 
-module.exports = { addProduct, getProduct, updateProduct, deleteProduct };
+module.exports = {
+  addProduct,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProudcts,
+  getProductById,
+};
