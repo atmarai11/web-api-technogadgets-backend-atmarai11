@@ -128,4 +128,10 @@ const getUserReviews = async (req, res) => {
   }
 };
 
-module.exports = { addReview, getBookReviews, getUserReviews };
+module.exports = {
+  addReview,
+  getBookReviews,
+  getUserReviews,
+  deleteReview,
+  updateReview,
+};
