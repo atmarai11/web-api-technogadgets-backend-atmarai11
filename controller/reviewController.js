@@ -86,7 +86,35 @@ const updateReview = async (req, res) => {
     res.json({ error: err.message });
   }
 };
+const deleteReview = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
 
+    const reviewData = await Review.findById(reviewId);
+
+    if (!reviewData) {
+      res.status(400);
+      throw new Error("No review found");
+    }
+    const customer = await Customer.findById(req.customer._id);
+
+    if (!customer) {
+      res.status(400);
+      throw new Error("User not found");
+    }
+
+    if (reviewData.userId.toString() !== customer.id) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+
+    await Review.findByIdAndDelete(reviewId);
+
+    res.status(200).json(reviewId);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+};
 const getUserReviews = async (req, res) => {
   const customerId = req.customer._id;
   try {
