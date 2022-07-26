@@ -55,6 +55,38 @@ const getBookReviews = async (req, res) => {
   }
 };
 
+const updateReview = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+
+    const reviewData = await Review.findById(reviewId);
+
+    if (!reviewData) {
+      res.status(400);
+      throw new Error("No review found");
+    }
+    const customer = await Customer.findById(req.customer._id);
+
+    if (!customer) {
+      res.status(400);
+      throw new Error("User not found");
+    }
+
+    if (reviewData.userId.toString() !== customer.id) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+
+    const updatedReview = await Review.findByIdAndUpdate(reviewId, req.body, {
+      new: true,
+    });
+
+    res.status(200).json(updatedReview);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+};
+
 const getUserReviews = async (req, res) => {
   const customerId = req.customer._id;
   try {
