@@ -53,10 +53,7 @@ const addProduct = async (req, res) => {
     description,
     quantity,
     price,
-    writerName,
-    publicationName,
     category,
-    releaseYear,
   } = req.body;
 
   const nameExists = await Product.findOne({ name });
@@ -68,7 +65,7 @@ const addProduct = async (req, res) => {
 
     // If book name already exists.
     if (nameExists) {
-      throw new Error("Book name already exists.");
+      throw new Error("Mobile name already exists.");
     }
 
     const imgFile = req.file;
@@ -97,11 +94,8 @@ const addProduct = async (req, res) => {
         description,
         price,
         quantity,
-        writerName,
-        publicationName,
         category,
         imgUrl,
-        releaseYear,
         customerId: customerData._id,
       });
 
@@ -117,10 +111,10 @@ const addProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const customerId = req.customer._id;
-  const { productId } = req.params;
-
   try {
+    const customerId = req.customer._id;
+    const { productId } = req.params;
+
     if (!customerId) {
       throw new Error("No user found.");
     }
@@ -130,6 +124,7 @@ const updateProduct = async (req, res) => {
     }
 
     const productData = await Product.findById(productId);
+    console.log(productData);
 
     if (productData.customerId.toString() !== customerId.toString()) {
       throw new Error("User not authorized.");

@@ -21,20 +21,8 @@ const ProductModel = mongoose.Schema({
     type: String,
     required: true,
   },
-  writerName: {
-    type: String,
-    required: true,
-  },
-  publicationName: {
-    type: String,
-    required: true,
-  },
   category: {
     type: String,
-    required: true,
-  },
-  releaseYear: {
-    type: Date,
     required: true,
   },
   customerId: {

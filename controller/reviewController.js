@@ -27,7 +27,7 @@ const addReview = async (req, res) => {
   }
 };
 
-const getBookReviews = async (req, res) => {
+const getMobileReviews = async (req, res) => {
   const { productId } = req.params;
 
   try {
@@ -37,13 +37,13 @@ const getBookReviews = async (req, res) => {
 
     const requiredData = [];
 
-    data.forEach(async (bookData, i) => {
-      const customerData = await Customer.findById(bookData.userId);
+    data.forEach(async (mobileData, i) => {
+      const customerData = await Customer.findById(mobileData.userId);
 
       requiredData.push({
         customerName: customerData.fullName,
-        reviewText: bookData.reviewText,
-        reviewDate: bookData.reviewDate,
+        reviewText: mobileData.reviewText,
+        reviewDate: mobileData.reviewDate,
       });
 
       if (i === data.length - 1) {
@@ -130,7 +130,7 @@ const getUserReviews = async (req, res) => {
 
 module.exports = {
   addReview,
-  getBookReviews,
+  getMobileReviews,
   getUserReviews,
   deleteReview,
   updateReview,

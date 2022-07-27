@@ -12,11 +12,11 @@ const {
 } = require("../controller/productController");
 const imgUpload = require("../upload/imageUpload");
 
-router.get("/book/get/:id", getProductById);
-router.get("/book/get/all", getAllProudcts);
-router.get("/book/get/category=:category", getProduct);
-router.post("/book/add", customerGuard, imgUpload.single("img"), addProduct);
-router.put("/book/update/:productId", customerGuard, updateProduct);
-router.delete("/book/delete/:productId", customerGuard, deleteProduct);
+router.get("/mobile/get/:id", getProductById);
+router.get("/mobile/all", getAllProudcts);
+router.get("/mobile/get/category=:category", getProduct);
+router.post("/mobile/add", customerGuard, imgUpload.single("img"), addProduct);
+router.put("/mobile/update/:productId", customerGuard, updateProduct);
+router.delete("/mobile/delete/:productId", customerGuard, deleteProduct);
 
 module.exports = router;
